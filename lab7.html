@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head> 
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Viewer</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+    <model-viewer id="model" 
+                  src="model.glb" 
+                  ios-src="model.usdz"
+                  ar 
+                  ar-modes="webxr scene-viewer quick-look"
+                  camera-controls 
+                  autoplay>
+    </model-viewer>
+
+    <script>
+        const modelViewer = document.querySelector("#model");
+        const animations = ["check", "innout"];
+        let currentAnimationIndex = 0;
+        const fps = 30;
+        const animationDuration = 120 / fps * 1000;
+
+        modelViewer.addEventListener("load", () => {
+            startAnimation();
+        });
+
+        function startAnimation() {
+            modelViewer.animationName = animations[currentAnimationIndex];
+            modelViewer.currentTime = 0;
+
+            setTimeout(() => {
+                switchAnimation();
+            }, animationDuration);
+        }
+
+        function switchAnimation() {
+            currentAnimationIndex = (currentAnimationIndex + 1) % animations.length;
+            startAnimation();
+        }
+    </script>
+
+</body>
+</html>
